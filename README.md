@@ -2,7 +2,7 @@
 Estimate TF or ER activity based on bulk ATAC/ChIP-seq profiles
 ![image](https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/HyperBMF.png)
 
-Raw ChIP/ATAC-seq data (in FASTQ format) can be uploaded and processing by EAP (epignomic analysis platform, details see https://github.com/haojiechen94/EAP). After completion of the analyses, two hypervariable analysis results (in proximal regions and distal regions) can be used as input for HyperBMF.
+Raw ChIP/ATAC-seq data (in FASTQ format) can be uploaded and processed by EAP (epignomic analysis platform, details see https://github.com/haojiechen94/EAP). After completion of the analyses, two hypervariable analysis results (in proximal regions and distal regions) can be used as input for HyperBMF.
 Or users could prepare the input files according to the Guidelines in MAnorm2 (https://github.com/tushiqi/MAnorm2).
 
 Script HyperBMF.R demeonstrate a simple example of transcription regulator activity estimation and its regulation network inference.
