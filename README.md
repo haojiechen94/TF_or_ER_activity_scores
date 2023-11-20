@@ -6,7 +6,7 @@ Raw ChIP/ATAC-seq data (in FASTQ format) can be uploaded and processing by EAP (
 Or users could prepare the input files according to the Guidelines in MAnorm2 (https://github.com/tushiqi/MAnorm2).
 
 Script HyperBMF.R demeonstrate a simple example of transcription regulator activity estimation and its regulation network inference.
-Data for run this example is available in directory data (Ho, Shamaine Wei Ting et al.).
+Data used for running this example is available in directory data (Ho, Shamaine Wei Ting et al.).
 
 Requirements:
 rstan;motifmatchr;GenomicRanges;SummarizedExperiment;BSgenome;TFBSTools;JASPAR2018;BSgenome.Hsapiens.UCSC.hg19
