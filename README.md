@@ -10,7 +10,7 @@ Data used for running this example is available in directory [data](https://gith
 Requirements:
 MAnorm2; rstan; motifmatchr; GenomicRanges; SummarizedExperiment; BSgenome; TFBSTools; JASPAR2018; BSgenome.Hsapiens.UCSC.hg19
 
-R packages: Using install.packages("HyperBMF[https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/HyperBMF_0.0.0.9000.tar.gz]") to install HyperBMF.
+R packages: Using install.packages("[HyperBMF](https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/HyperBMF_0.0.0.9000.tar.gz)") to install HyperBMF.
 
 Webtools and docker tools are developing.
 
