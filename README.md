@@ -8,9 +8,11 @@ Script HyperBMF.R demeonstrates a simple example of transcription regulator acti
 Data used for running this example is available in directory [data](https://github.com/haojiechen94/TF_or_ER_activity_scores/tree/master/data) (Ho, Shamaine Wei Ting et al.).
 
 Requirements:
-rstan;motifmatchr;GenomicRanges;SummarizedExperiment;BSgenome;TFBSTools;JASPAR2018;BSgenome.Hsapiens.UCSC.hg19
+MAnorm2; rstan; motifmatchr; GenomicRanges; SummarizedExperiment; BSgenome; TFBSTools; JASPAR2018; BSgenome.Hsapiens.UCSC.hg19
 
-Webtools and docker tools are developing. R package will be available soon.
+R packages: Using install.packages("HyperBMF[https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/HyperBMF_0.0.0.9000.tar.gz]") to install HyperBMF.
+
+Webtools and docker tools are developing.
 
 Citation:<br>
 [1] Chen, Haojie et al. “HyperChIP: identification of hypervariable signals across ChIP-seq or ATAC-seq samples.” Genome biology vol. 23,1 62. 28 Feb. 2022, doi:10.1186/s13059-022-02627-9<br>
