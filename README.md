@@ -1,4 +1,4 @@
-# TF_or_ER_activity_scores
+# HyperBMF: jointly infers TF/ER activity and its regulatory network in ATAC/ChIP-seq data
 Estimate TF or ER activity based on bulk ATAC/ChIP-seq profiles
 ![image](https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/HyperBMF.png)
 
