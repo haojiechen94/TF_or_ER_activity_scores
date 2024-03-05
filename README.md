@@ -19,3 +19,9 @@ Citation:<br>
 [2] Gao, Shang et al. “A Bayesian inference transcription factor activity model for the analysis of single-cell transcriptomes.” Genome research, vol. 31,7 1296–1311. 30 Jun. 2021, doi:10.1101/gr.265595.120<br>
 [3] https://mc-stan.org/docs/stan-users-guide/index.html<br>
 [4] Ho, Shamaine Wei Ting et al. “Regulatory enhancer profiling of mesenchymal-type gastric cancer reveals subtype-specific epigenomic landscapes and targetable vulnerabilities.” Gut vol. 72,2 (2023): 226-241. doi:10.1136/gutjnl-2021-326483
+
+<p align="center">
+  <a href="#">
+     <img src="https://api.visitorbadge.io/api/visitors?path=https://github.com/haojiechen94/TF_or_ER_activity_scores" />
+   </a>
+</p>
