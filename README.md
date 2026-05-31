@@ -1,6 +1,6 @@
 # TregOmic: jointly infers TF/ER activity and its regulatory network in ATAC/ChIP/RNA-seq data
 Estimate TF or ER activity based on bulk ATAC/ChIP/RNA-seq profiles
-![image](https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/workflow.png)
+![image](https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/Supplementary_figure1.jpg)
 
 Raw ChIP/ATAC-seq data (in FASTQ format) can be uploaded and processed by EAP (epignomic analysis platform, details see https://github.com/haojiechen94/EAP). After completion of the analyses, two hypervariable analysis results (in proximal regions and distal regions) can be used as input for HyperBMF, or users could prepare the input files according to the Guideline in MAnorm2 (https://github.com/tushiqi/MAnorm2).
 
