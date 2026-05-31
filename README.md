@@ -1,4 +1,4 @@
-# regOmic: jointly infers TF/ER activity and its regulatory network in ATAC/ChIP/RNA-seq data
+# TregOmic: jointly infers TF/ER activity and its regulatory network in ATAC/ChIP/RNA-seq data
 Estimate TF or ER activity based on bulk ATAC/ChIP/RNA-seq profiles
 ![image](https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/workflow.png)
 
