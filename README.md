@@ -1,29 +1,246 @@
-# TregOmic: jointly infers TF/ER activity and its regulatory network in ATAC/ChIP/RNA-seq data
-Estimate TF or ER activity based on bulk ATAC/ChIP/RNA-seq profiles
-![image](https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/Supplementary_figure1.jpg)
+![R](https://img.shields.io/badge/R-%3E%3D4.4-blue)
+![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey)
+![License](https://img.shields.io/badge/license-GPL--3-green)
 
-Raw ChIP/ATAC-seq data (in FASTQ format) can be uploaded and processed by EAP (epignomic analysis platform, details see https://github.com/haojiechen94/EAP). After completion of the analyses, two hypervariable analysis results (in proximal regions and distal regions) can be used as input for HyperBMF, or users could prepare the input files according to the Guideline in MAnorm2 (https://github.com/tushiqi/MAnorm2).
+# TregOmic
 
-Script HyperBMF.R demeonstrates a simple example of transcription regulator activity estimation and its regulation network inference.
-Data used for running this example is available in directory [data](https://github.com/haojiechen94/TF_or_ER_activity_scores/tree/master/data) (Ho, Shamaine Wei Ting et al.).
+## Joint Inference of Regulon Activity and Regulatory Potential from Multi-omic Data
 
-Requirements:
-MAnorm2; rstan; motifmatchr; GenomicRanges; SummarizedExperiment; BSgenome; TFBSTools; JASPAR2018; BSgenome.Hsapiens.UCSC.hg19
+**TregOmic** is a computational framework for simultaneously inferring **regulon activities (RA)** and the **regulatory potentials (RP)** of transcriptional regulators by integrating prior information from regulator–target regulatory element and regulator–target gene associations.
 
-R packages: Using install.packages("[HyperBMF](https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/HyperBMF_0.0.0.9000.tar.gz)") to install HyperBMF.
-
-Webtools and docker tools are developing.
-
-Citation:<br>
-[1] Chen, Haojie et al. “HyperChIP: identification of hypervariable signals across ChIP-seq or ATAC-seq samples.” Genome biology vol. 23,1 62. 28 Feb. 2022, doi:10.1186/s13059-022-02627-9<br>
-[2] https://www.cs.helsinki.fi/u/sakaya/tutorial/<br>
-[3] Gao, Shang et al. “A Bayesian inference transcription factor activity model for the analysis of single-cell transcriptomes.” Genome research, vol. 31,7 1296–1311. 30 Jun. 2021, doi:10.1101/gr.265595.120<br>
-[4] https://mc-stan.org/docs/stan-users-guide/index.html<br>
-[5] Ho, Shamaine Wei Ting et al. “Regulatory enhancer profiling of mesenchymal-type gastric cancer reveals subtype-specific epigenomic landscapes and targetable vulnerabilities.” Gut vol. 72,2 (2023): 226-241. doi:10.1136/gutjnl-2021-326483
-
+TregOmic supports the analysis of **ATAC-seq**, **ChIP-seq**, and **RNA-seq** data, enabling systematic characterization of regulatory programs across biological samples.
 
 <p align="center">
-  <a href="#">
-     <img src="https://api.visitorbadge.io/api/visitors?path=https://github.com/haojiechen94/TF_or_ER_activity_scores" />
-   </a>
+  <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/Supplementary_figure1.jpg" width="900">
 </p>
+
+---
+
+## Overview
+
+TregOmic provides a framework for simultaneously inferring regulon activities and the regulatory potentials of transcriptional regulators by integrating prior information from regulator–target regulatory element and regulator–target gene associations.
+
+Beyond regulon inference, TregOmic supports a range of downstream integrative multi-omic analyses, including:
+
+- Identification of core regulators associated with sample phenotypes.
+- Discovery of putative cis-acting genomic alterations associated with regulon activities.
+- Discovery of putative trans-acting genomic alterations associated with regulon activities.
+- Characterization of post-translational modification sites that may influence regulator activity.
+- Integration of genomic, epigenomic, transcriptomic, and proteomic data to investigate regulatory mechanisms underlying cellular phenotypes.
+
+---
+
+## Key Features
+
+### Regulatory Activity Inference
+
+- Quantification of transcriptional regulator activities across samples.
+- Simultaneous estimation of regulator-specific regulatory potentials.
+- Integration of motif information and chromatin profiling data.
+
+### Hypervariable Feature Identification
+
+- Identification of hypervariable regulatory elements using ATAC-seq or ChIP-seq data.
+- Identification of hypervariable genes using RNA-seq data.
+
+### Multi-omic Integration
+
+- Mutation–regulon association analysis.
+- Cis-effect mutation discovery.
+- Trans-effect mutation discovery.
+- Post-translational modification analysis.
+- Phenotype-associated regulator discovery.
+
+### Visualization
+
+- PCA visualization.
+- t-SNE visualization.
+- Regulon activity comparison across sample groups.
+- Regulatory network exploration.
+
+---
+
+## Installation
+
+### Prerequisites
+
+TregOmic depends on several CRAN and Bioconductor packages.
+
+Install Bioconductor packages:
+
+```r
+if (!requireNamespace("BiocManager"))
+    install.packages("BiocManager")
+
+BiocManager::install(c(
+    "MAnorm2",
+    "motifmatchr",
+    "GenomicRanges",
+    "IRanges",
+    "TFBSTools",
+    "JASPAR2018",
+    "BSgenome",
+    "BSgenome.Hsapiens.UCSC.hg19",
+    "DESeq2",
+    "SummarizedExperiment"
+))
+```
+
+Install CRAN packages:
+
+```r
+install.packages(c(
+    "rstan",
+    "Rtsne",
+    "pcaMethods",
+    "RColorBrewer",
+    "scales",
+    "ggpubr",
+    "tidyr"
+))
+```
+
+### Install TregOmic
+
+Download the source package and install:
+
+```r
+install.packages(
+    "TregOmic_0.1.0.tar.gz",
+    repos = NULL,
+    type = "source"
+)
+```
+
+Alternatively:
+
+```r
+install.packages(
+    "path/to/TregOmic_0.1.0.tar.gz",
+    repos = NULL,
+    type = "source"
+)
+```
+
+---
+
+## Preparing Input Data
+
+### ATAC-seq / ChIP-seq
+
+Raw sequencing data (FASTQ format) can be processed using the Epigenetic Analysis Platform (EAP):
+
+https://github.com/haojiechen94/EAP
+
+After processing, TregOmic requires:
+
+- Proximal peak count matrix
+- Distal peak count matrix
+- Sample metadata table
+
+Alternatively, users may prepare input files following the MAnorm2 format:
+
+https://github.com/tushiqi/MAnorm2
+
+### RNA-seq
+
+Raw RNA-seq data can also be processed using EAP.
+
+Required input:
+
+- Gene expression count matrix
+- Sample metadata table
+
+---
+
+## Example Dataset
+
+Example datasets are available at:
+
+https://github.com/haojiechen94/TF_or_ER_activity_scores/tree/master/data
+
+---
+
+## Example Workflow
+
+### Step 1. Identify Hypervariable Regulatory Elements
+
+```r
+library(TregOmic)
+
+HyperChIP_res <- HyperChIP_ATAC_seq(
+    "./data/proximal_peak_regions_2000bp.txt",
+    "./data/distal_peak_regions_2000bp.txt",
+    "./data/GAC_cellines_H3K27ac_ChIP_seq_metadata.csv",
+    categorical_variable = "tissue_type",
+    top_number_of_PCs = 2,
+    perplexity = 0,
+    filtered_chromosomes = c("chrX", "chrY", "chrM"),
+    fdr_cutoff = 0.01
+)
+```
+
+### Step 2. Infer Regulon Activity and Regulatory Potential
+
+```r
+TregOmic_res <- TregOmic_ATAC_seq(
+    HyperChIP_res,
+    c(
+        "GATA6",
+        "HNF4A",
+        "HNF4G",
+        "TEAD1",
+        "TEAD2",
+        "TEAD3",
+        "TEAD4"
+    ),
+    fdr_cutoff = 0.01,
+    tol_rel_obj = 0.001,
+    z_transform = 1,
+    genome =
+        BSgenome.Hsapiens.UCSC.hg19::BSgenome.Hsapiens.UCSC.hg19,
+    JASPAR =
+        JASPAR2018::JASPAR2018
+)
+```
+
+### Step 3. Visualize Regulon Activity
+
+```r
+boxplot_RA(
+    TregOmic_res,
+    TR = "HNF4A",
+    categorical_variable = "tissue_type"
+)
+```
+
+---
+
+## Main Output Objects
+
+| Object | Description |
+|----------|-------------|
+| RA matrix | Regulon activity matrix across samples |
+| RP matrix | Regulatory potential matrix |
+| Prior matrix | Prior regulator-target association matrix |
+| Hypervariable regions | Significant hypervariable regulatory elements |
+| Hypervariable genes | Significant hypervariable genes |
+| PCA/t-SNE results | Low-dimensional sample embeddings |
+
+---
+
+## Citation
+
+If you use TregOmic in your research, please cite:
+
+> Chen HJ et al. TregOmic: Joint inference of regulon activity and regulatory potential from multi-omic data. Manuscript in preparation.
+
+---
+
+## Contact
+
+**Haojie Chen**
+
+Email: chenhaojiecompbio@gmail.com
+
+GitHub: https://github.com/haojiechen94/TF_or_ER_activity_scores
