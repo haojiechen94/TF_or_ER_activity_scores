@@ -36,12 +36,12 @@ Beyond regulon inference, TregOmic supports a range of downstream integrative mu
 
 - Quantification of transcriptional regulator activities across samples.
 - Simultaneous estimation of regulator-specific regulatory potentials.
-- Integration of motif information and chromatin profiling data.
+- Integration of transcriptional regulator activities and multi-omic data.
 
-### Hypervariable Feature Identification
+### Most variable Feature Identification
 
-- Identification of hypervariable regulatory elements using ATAC-seq or ChIP-seq data.
-- Identification of hypervariable genes using RNA-seq data.
+- Identification of most variable regulatory elements using ATAC-seq or ChIP-seq data.
+- Identification of most variable genes using RNA-seq data.
 
 ### Multi-omic Integration
 
@@ -106,16 +106,6 @@ Download the source package and install:
 
 ```r
 install.packages(
-    "TregOmic_0.1.0.tar.gz",
-    repos = NULL,
-    type = "source"
-)
-```
-
-Alternatively:
-
-```r
-install.packages(
     "path/to/TregOmic_0.1.0.tar.gz",
     repos = NULL,
     type = "source"
@@ -142,28 +132,17 @@ Alternatively, users may prepare input files following the MAnorm2 format:
 
 https://github.com/tushiqi/MAnorm2
 
-### RNA-seq
-
-Raw RNA-seq data can also be processed using EAP.
-
-Required input:
-
-- Gene expression count matrix
-- Sample metadata table
-
 ---
 
 ## Example Dataset
 
-Example datasets are available at:
-
-https://github.com/haojiechen94/TF_or_ER_activity_scores/tree/master/data
+Example datasets are available at: Zenodo
 
 ---
 
 ## Example Workflow
 
-### Step 1. Identify Hypervariable Regulatory Elements
+### Step 1. Identify Most Variable Regulatory Elements
 
 ```r
 library(TregOmic)
@@ -223,8 +202,8 @@ boxplot_RA(
 | RA matrix | Regulon activity matrix across samples |
 | RP matrix | Regulatory potential matrix |
 | Prior matrix | Prior regulator-target association matrix |
-| Hypervariable regions | Significant hypervariable regulatory elements |
-| Hypervariable genes | Significant hypervariable genes |
+| Most variable peak regions | Significant most variable regulatory elements |
+| Most variable genes | Top-ranked most vairable genes |
 | PCA/t-SNE results | Low-dimensional sample embeddings |
 
 ---
