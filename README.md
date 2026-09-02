@@ -233,6 +233,10 @@ boxplot_RA(
 )
 ```
 
+<p align="center">
+  <img src="images/TregOmic_results.png" width="900">
+</p>
+
 ### Step 4. Export a regulon activity matrix
 
 ```r
