@@ -237,6 +237,19 @@ boxplot_RA(
   <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/1.png" width="400">
 </p>
 
+
+```r
+boxplot_RA(
+    TregOmic_res,
+    TR = "RUNX2",
+    categorical_variable = "tissue_type"
+)
+```
+
+<p align="center">
+  <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/2.png" width="400">
+</p>
+
 ### Step 4. Export a regulon activity matrix
 
 ```r
