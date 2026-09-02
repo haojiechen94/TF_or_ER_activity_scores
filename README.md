@@ -1,58 +1,117 @@
+<div align="center">
+
 # TregOmic
 
-**Joint inference of regulon activity and regulatory potential from multi-omic data**
+### Joint inference of transcriptional regulator activity and regulatory potential from epigenomic and transcriptomic profiles
 
-![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)
-![R](https://img.shields.io/badge/language-R-276DC3.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
+**From regulatory activity inference to multi-layer dissection of transcriptional control**
 
-TregOmic is an R package for inferring **regulon activity (RA)** and **regulatory potential (RP)** of transcriptional regulators from epigenomic and transcriptomic data. It integrates prior regulator–target information with sample-level molecular profiles and provides downstream analyses for linking regulator activity to genomic alterations and post-translational modifications.
+[![R](https://img.shields.io/badge/R-%E2%89%A54.2-276DC3?logo=r&logoColor=white)](https://www.r-project.org/)
+[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey)](#installation)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](#license)
+[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](#installation)
 
-TregOmic currently supports:
+[Overview](#overview) •
+[Concept](#conceptual-framework) •
+[Installation](#installation) •
+[Quick start](#quick-start) •
+[Multi-omic analyses](#multi-omic-regulatory-analysis) •
+[Input & output](#input-and-output) •
+[Citation](#citation)
 
-- **ATAC-seq / ChIP-seq**: identification of most variable regulatory regions followed by RA/RP inference using transcription factor motif information.
-- **RNA-seq**: identification of most variable genes followed by RA/RP inference using a signed regulator–target network.
-- **Mutation–regulon analysis**: identification of putative cis- and trans-acting mutations associated with regulon activity.
-- **PTM–regulon analysis**: evaluation of post-translational modification signals associated with regulator activity beyond protein abundance.
-- **Single-cell applications**: application to cluster-level or other pseudobulk RNA-seq profiles derived from scRNA-seq data.
+</div>
 
 ---
 
 ## Overview
 
-TregOmic is designed around two complementary quantities:
+**TregOmic** is an R framework for quantitative analysis of transcriptional regulatory programs from **ATAC-seq, ChIP-seq, and RNA-seq** profiles.
 
-- **Regulon activity (RA):** the inferred activity of a transcriptional regulator in each sample.
-- **Regulatory potential (RP):** the inferred contribution of regulatory elements or target genes to regulator-associated variation.
+Rather than using target-gene or motif enrichment alone as a surrogate for regulator activity, TregOmic jointly estimates:
 
-A typical workflow is:
+- **Regulon activity (RA)** — the activity of a transcriptional regulator across biological samples.
+- **Regulatory potential (RP)** — the inferred contribution of regulator-associated regulatory elements or target genes to the observed molecular profile.
+
+The framework combines molecular measurements with prior regulator–target relationships and uses a probabilistic model to infer sample-specific regulatory activities together with regulator-specific regulatory potentials.
+
+TregOmic further connects inferred regulon activity to **genomic, proteomic, and post-translational regulatory layers**, enabling systematic investigation of the mechanisms that shape transcriptional regulator activity.
+
+> **In short:** TregOmic moves from *“Which regulators are active?”* to *“Why is a regulator active in a given biological context?”*
+
+---
+
+## Conceptual framework
 
 ```text
-ATAC/ChIP-seq                           RNA-seq
-     |                                    |
-     v                                    v
-HyperChIP_ATAC_seq()                DESeq2_RNA_seq()
-     |                                    |
-     v                                    v
-Most variable regions              Most variable genes
-     |                                    |
-     +--------------+---------------------+
-                    |
-                    v
-          TregOmic_ATAC_seq() /
-          TregOmic_RNA_seq()
-                    |
-                    v
-       Regulon activity + Regulatory potential
-                    |
-          +---------+----------+
-          |                    |
-          v                    v
-Mutation_affect_regulon()   PTM_affect_regulon()
-          |                    |
-          v                    v
- cis/trans genomic effects   PTM-associated regulation
+                             PRIOR KNOWLEDGE
+                  ┌─────────────────────────────────┐
+                  │ TF–regulatory element links    │
+                  │ TF–target gene relationships   │
+                  └───────────────┬─────────────────┘
+                                  │
+                                  ▼
+ MOLECULAR PROFILES        ┌───────────────────────────┐
+ ┌──────────────────┐      │        TregOmic           │
+ │ ATAC-seq         │─────▶│                           │
+ │ ChIP-seq         │─────▶│  Joint probabilistic     │
+ │ RNA-seq          │─────▶│  inference of RA and RP  │
+ └──────────────────┘      └─────────────┬─────────────┘
+                                        │
+                   ┌────────────────────┴────────────────────┐
+                   ▼                                         ▼
+          REGULON ACTIVITY                           REGULATORY POTENTIAL
+           across samples                        of targets / regulatory elements
+                   │
+                   ▼
+       MULTI-OMIC REGULATORY DISSECTION
+ ┌───────────────────────────────────────────────────────────────┐
+ │ phenotype associations                                       │
+ │ cis- and trans-acting somatic mutations                      │
+ │ protein abundance                                             │
+ │ phosphorylation / other PTM-associated regulation            │
+ │ multi-layer regulatory architecture                          │
+ └───────────────────────────────────────────────────────────────┘
 ```
+
+The current package directly implements workflows for epigenomic and transcriptomic profiles. Single-cell or spatial transcriptomic data can be analyzed after constructing appropriate **cluster-, region-, or pseudobulk-level expression matrices** for the RNA-based workflow.
+
+---
+
+## Why TregOmic?
+
+Transcription-factor abundance is often an incomplete proxy for transcriptional activity. Regulatory output can be altered by chromatin accessibility, enhancer usage, mutations, protein abundance, phosphorylation, interacting factors, and other regulatory processes.
+
+TregOmic is designed around three questions:
+
+1. **Which transcriptional regulators are active?**
+2. **Which regulatory elements or target genes contribute to their activity?**
+3. **Which molecular alterations may explain changes in regulator activity?**
+
+This design makes TregOmic suitable for studies of:
+
+- lineage-specific transcriptional programs;
+- cancer progression and regulatory reprogramming;
+- phenotype-associated core transcriptional regulators;
+- mutation-driven cis- and trans-regulatory effects;
+- phosphorylation-associated regulation of transcription factors;
+- multi-layer genomic–proteomic control of regulator activity.
+
+---
+
+## Key capabilities
+
+| Module | Main function | Purpose |
+|---|---|---|
+| Variable epigenomic feature analysis | `HyperChIP_ATAC_seq()` | Identify highly variable regulatory elements from ATAC-seq or ChIP-seq profiles |
+| Epigenomic regulon inference | `TregOmic_ATAC_seq()` | Jointly infer regulon activity and regulatory potential from ATAC/ChIP-seq |
+| Variable transcriptomic feature analysis | `DESeq2_RNA_seq()` | Identify highly variable genes and prepare RNA-seq data |
+| Transcriptomic regulon inference | `TregOmic_RNA_seq()` | Jointly infer regulon activity and regulatory potential from RNA-seq |
+| Matrix extraction | `transform_to_matrix()` | Convert TregOmic results into a regulon activity matrix |
+| Phenotype visualization | `boxplot_RA()` | Compare regulator activity across sample groups |
+| Mutation association | `Mutation_affect_regulon()` | Identify putative cis- and trans-acting mutations associated with regulon activity |
+| PTM association | `PTM_affect_regulon()` | Test whether regulator PTMs explain activity beyond protein abundance |
+| Mutation visualization | `boxplot_RA2()` / `hbar_plot()` | Visualize mutation-associated activity changes and trans effects |
+| Multi-layer modeling | `Multi_layer_regulation_model()` | Integrate mutations, protein abundance, and phosphosites using Elastic Net |
 
 ---
 
@@ -61,22 +120,20 @@ Mutation_affect_regulon()   PTM_affect_regulon()
 ### 1. Install Bioconductor dependencies
 
 ```r
-if (!requireNamespace("BiocManager", quietly = TRUE)) {
+if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-}
 
 BiocManager::install(c(
     "MAnorm2",
     "motifmatchr",
     "GenomicRanges",
     "IRanges",
-    "BSgenome",
-    "BSgenome.Hsapiens.UCSC.hg19",
     "TFBSTools",
     "JASPAR2018",
+    "BSgenome",
+    "BSgenome.Hsapiens.UCSC.hg19",
     "DESeq2",
-    "SummarizedExperiment",
-    "pcaMethods"
+    "SummarizedExperiment"
 ))
 ```
 
@@ -85,21 +142,29 @@ BiocManager::install(c(
 ```r
 install.packages(c(
     "rstan",
-    "RColorBrewer",
     "Rtsne",
+    "pcaMethods",
+    "RColorBrewer",
     "scales",
-    "ggplot2",
     "ggpubr",
     "tidyr",
     "patchwork",
-    "future",
-    "future.apply"
+    "future.apply",
+    "tidyverse",
+    "glmnet"
 ))
 ```
 
 ### 3. Install TregOmic
 
-Download `TregOmic_0.1.0.tar.gz` from this repository and run:
+Clone this repository:
+
+```bash
+git clone https://github.com/haojiechen94/TF_or_ER_activity_scores.git
+cd TF_or_ER_activity_scores
+```
+
+Install the source package in R:
 
 ```r
 install.packages(
@@ -107,57 +172,29 @@ install.packages(
     repos = NULL,
     type = "source"
 )
+```
 
+Then load the package:
+
+```r
 library(TregOmic)
 ```
 
-> TregOmic uses `rstan` for Bayesian model fitting. A working R/C++ toolchain may therefore be required depending on your operating system and R installation.
-
 ---
 
-## Main functions
+# Quick start
 
-| Function | Description |
-|---|---|
-| `HyperChIP_ATAC_seq()` | Identifies most variable regulatory regions from ATAC-seq or ChIP-seq data. |
-| `TregOmic_ATAC_seq()` | Infers regulon activity and regulatory potential from epigenomic data. |
-| `DESeq2_RNA_seq()` | Identifies most variable genes and prepares RNA-seq data for TregOmic. |
-| `TregOmic_RNA_seq()` | Infers regulon activity and regulatory potential from transcriptomic data. |
-| `boxplot_RA()` | Visualizes regulon activity across sample groups. |
-| `transform_to_matrix()` | Converts TregOmic output into RA, RP, and prior-information matrices. |
-| `Mutation_affect_regulon()` | Identifies mutations associated with regulon activity through cis- or trans-effects. |
-| `hbar_plot()` | Ranks mutated genes by the number of significantly associated regulon activities. |
-| `boxplot_RA2()` | Compares regulon activity between mutant and wild-type samples. |
-| `PTM_affect_regulon()` | Identifies regulators whose PTM profiles explain RA beyond protein abundance. |
-| `download_data()` | Downloads curated example datasets used in downstream analyses. |
+## Workflow A — ATAC-seq / ChIP-seq
 
----
-
-# Basic usage
-
-## 1. ATAC-seq / ChIP-seq workflow
-
-### Input data
-
-`HyperChIP_ATAC_seq()` requires:
-
-1. A proximal peak table.
-2. A distal peak table.
-3. A comma-separated metadata table.
-
-The proximal and distal peak files should contain genomic coordinates in the first three columns, followed by sample-level read-count and occupancy information. Such files can be generated using the [Epigenetic Analysis Platform (EAP)](https://github.com/haojiechen94/EAP).
-
-Example data are also available in the [`data`](https://github.com/haojiechen94/TF_or_ER_activity_scores/tree/master/data) directory.
-
-### Step 1. Identify most variable regulatory regions
+### Step 1. Identify variable regulatory elements
 
 ```r
 library(TregOmic)
 
 HyperChIP_res <- HyperChIP_ATAC_seq(
-    "./data/proximal_peak_regions_2000bp.txt",
-    "./data/distal_peak_regions_2000bp.txt",
-    "./data/GAC_cellines_H3K27ac_ChIP_seq_metadata.csv",
+    input_proximal = "./data/proximal_peak_regions_2000bp.txt",
+    input_distal   = "./data/distal_peak_regions_2000bp.txt",
+    metadata       = "./data/sample_metadata.csv",
     categorical_variable = "tissue_type",
     top_number_of_PCs = 2,
     perplexity = 0,
@@ -166,14 +203,14 @@ HyperChIP_res <- HyperChIP_ATAC_seq(
 )
 ```
 
-`HyperChIP_ATAC_seq()` performs HyperChIP-based variability analysis and returns the identified variable regions together with PCA, t-SNE, and sample metadata.
+This step identifies highly variable regulatory regions while accounting for the mean–variance relationship in epigenomic count data.
 
 ### Step 2. Infer regulon activity and regulatory potential
 
 ```r
 TregOmic_res <- TregOmic_ATAC_seq(
     HyperChIP_res,
-    c(
+    genes_annotated_with_peaks = c(
         "GATA6", "HNF4A", "HNF4G",
         "TEAD1", "TEAD2", "TEAD3", "TEAD4",
         "RUNX2"
@@ -186,46 +223,34 @@ TregOmic_res <- TregOmic_ATAC_seq(
 )
 ```
 
-TregOmic scans the selected variable regions for transcription factor motifs and uses the resulting prior matrix during Bayesian inference of RA and RP.
-
-### Step 3. Visualize regulon activity
+### Step 3. Compare regulator activity across phenotypes
 
 ```r
 boxplot_RA(
     TregOmic_res,
-    TR = "RUNX2",
+    TR = "HNF4A",
     categorical_variable = "tissue_type"
 )
 ```
 
-### Step 4. Export RA and RP matrices
+### Step 4. Export a regulon activity matrix
 
 ```r
-TregOmic_matrix <- transform_to_matrix(TregOmic_res)
-
-RA_matrix <- TregOmic_matrix$Regulon_activity
-RP_matrix <- TregOmic_matrix$Rgulatory_potential
-prior_matrix <- TregOmic_matrix$Prior_information
+RA_matrix <- transform_to_matrix(TregOmic_res)
 ```
+
+The resulting matrix can be used for clustering, phenotype association, survival analysis, multi-omic integration, or downstream visualization.
 
 ---
 
-## 2. RNA-seq workflow
+## Workflow B — RNA-seq
 
-### Input data
-
-`DESeq2_RNA_seq()` requires:
-
-- A raw RNA-seq count matrix with genes in rows and samples in columns.
-- A comma-separated metadata table with samples in rows.
-- A categorical variable used for PCA/t-SNE visualization.
-
-### Step 1. Identify most variable genes
+### Step 1. Prepare RNA-seq data and identify variable genes
 
 ```r
 DESeq2_res <- DESeq2_RNA_seq(
-    "./data/LUAD_raw_read_counts.txt",
-    "./data/LUAD_sample_info.csv",
+    input_count_table = "./data/raw_read_counts.txt",
+    metadata = "./data/sample_info.txt",
     categorical_variable = "Stage",
     top_number_of_PCs = 2,
     perplexity = 0,
@@ -234,27 +259,30 @@ DESeq2_res <- DESeq2_RNA_seq(
 )
 ```
 
-### Step 2. Infer regulon activity and regulatory potential
-
-TregOmic uses a signed regulator–target network for transcriptomic analysis. The network should contain regulator (`source`), target gene (`target`), and mode-of-regulation (`mor`) information.
+### Step 2. Infer transcriptomic regulon activity
 
 ```r
-TregOmic_res <- TregOmic_RNA_seq(
+TregOmic_RNA_res <- TregOmic_RNA_seq(
     DESeq2_res,
     regulatory_network_path = "./data/human_net.txt",
     iter = 10000,
     output_samples = 300,
     tol_rel_obj = 0.0005,
     z_transform = 1,
-    selected_TRs = c("NKX2-1", "CEBPB", "CEBPD", "RUNX2")
+    selected_TRs = c(
+        "NKX2-1",
+        "CEBPB",
+        "CEBPD",
+        "RUNX2"
+    )
 )
 ```
 
-### Step 3. Compare regulon activity across phenotypes
+### Step 3. Visualize phenotype-associated activity
 
 ```r
 boxplot_RA(
-    TregOmic_res,
+    TregOmic_RNA_res,
     TR = "RUNX2",
     categorical_variable = "Stage"
 )
@@ -262,143 +290,51 @@ boxplot_RA(
 
 ---
 
-# Advanced applications
+# Multi-omic regulatory analysis
 
-## 3. PTM-associated regulation of regulon activity
-
-TregOmic can integrate regulon activity, proteomics, and phosphoproteomics/PTM-omics data to test whether PTM measurements explain additional variation in regulator activity beyond total protein abundance.
-
-For each regulator, the package compares two nested models:
-
-```text
-RA ~ Protein
-RA ~ Protein + PTM1 + PTM2 + ... + PTMn
-```
-
-using an ANOVA model comparison.
-
-### Download the LUAD example dataset
-
-```r
-dir.create("./data/LUAD", recursive = TRUE, showWarnings = FALSE)
-
-download_data(
-    "https://zenodo.org/records/20754798/files/LUAD_TR_activity.txt",
-    "./data/LUAD/LUAD_TR_activity.txt"
-)
-
-download_data(
-    "https://zenodo.org/records/20754798/files/LUAD_proteomics.txt",
-    "./data/LUAD/LUAD_proteomics.txt"
-)
-
-download_data(
-    "https://zenodo.org/records/20754798/files/LUAD_phosphomics.txt",
-    "./data/LUAD/LUAD_phosphomics.txt"
-)
-```
-
-### Run PTM–regulon analysis
-
-```r
-PTM_res <- PTM_affect_regulon(
-    "./data/LUAD/LUAD_TR_activity.txt",
-    "./data/LUAD/LUAD_proteomics.txt",
-    "./data/LUAD/LUAD_phosphomics.txt"
-)
-
-head(PTM_res$phos_vs_pro)
-```
-
-The returned object currently contains:
-
-```text
-PTM_res$phos_vs_pro   regulator-level ANOVA results
-PTM_res$RA            regulon activity matrix
-PTM_res$Pro           protein abundance matrix
-PTM_res$Phos          phosphoproteomics/PTM matrix
-```
-
-For phosphoproteomic input, row names should begin with the corresponding gene symbol followed by `|`, because TregOmic uses the first field of the row name to map PTM sites to regulators.
+A major goal of TregOmic is to use regulon activity as a quantitative molecular phenotype and determine which upstream regulatory layers explain its variation.
 
 ---
 
-## 4. Mutation–regulon association analysis
+## 1. Mutation–regulon activity associations
 
-`Mutation_affect_regulon()` identifies recurrent mutations associated with regulator activity using multivariable linear regression. Regulon activities are restricted away from exactly 0 and 1 and then logit-transformed before model fitting.
+`Mutation_affect_regulon()` identifies recurrent somatic mutations associated with regulator activity.
 
-The analysis contains two components:
+The analysis distinguishes:
 
-- **cis-effect:** mutation of a transcriptional regulator is tested against the activity of the same regulator.
-- **trans-effect:** each recurrently mutated gene is tested against the activities of all regulators.
+- **cis effects** — mutation of a regulator gene associated with activity of the same regulator;
+- **trans effects** — mutation of one gene associated with activity of another regulator.
 
-Optional clinical or molecular covariates can be included in both models.
-
-### Input format
-
-- **Mutation matrix:** genes in rows, samples in columns; mutation status coded numerically, typically `0`/`1`.
-- **RA matrix:** transcriptional regulators in rows, samples in columns.
-- **Metadata:** samples in rows and covariates in columns; the current function expects a tab-delimited file.
-
-### Download the LSCC example dataset
-
-```r
-dir.create("./data/LSCC", recursive = TRUE, showWarnings = FALSE)
-
-download_data(
-    "https://zenodo.org/records/22177302/files/LSCC_meta.txt",
-    "./data/LSCC/LSCC_meta.txt"
-)
-
-download_data(
-    "https://zenodo.org/records/22177302/files/LSCC_mutations.txt",
-    "./data/LSCC/LSCC_mutations.txt"
-)
-
-download_data(
-    "https://zenodo.org/records/22177302/files/LSCC_TR_activity.txt",
-    "./data/LSCC/LSCC_TR_activity.txt"
-)
-```
-
-### Run the association analysis
+A multivariable regression model can incorporate clinical or molecular covariates.
 
 ```r
 mutation_res <- Mutation_affect_regulon(
-    "./data/LSCC/LSCC_mutations.txt",
-    "./data/LSCC/LSCC_TR_activity.txt",
-    "./data/LSCC/LSCC_meta.txt",
+    mutation_matrix = "./data/LSCC_mutations.txt",
+    RA_matrix = "./data/LSCC_TR_activity.txt",
+    metadata = "./data/LSCC_meta.txt",
     covariates = c("Age", "Sex", "BMI", "TMB"),
     recurrent_gene_cutoff = 0.05
 )
 ```
 
-Inspect cis-acting associations:
+Inspect cis effects:
 
 ```r
 head(mutation_res$cis)
 ```
 
-Inspect trans-acting associations:
-
-```r
-head(mutation_res$trans)
-```
-
-Each result contains the estimated mutation coefficient (`beta`), nominal `pval`, and Benjamini–Hochberg adjusted `padj`.
-
-### Compare mutant and wild-type samples
+Visualize the activity of a regulator between mutant and wild-type samples:
 
 ```r
 boxplot_RA2(
-    "./data/LSCC/LSCC_mutations.txt",
-    "./data/LSCC/LSCC_TR_activity.txt",
-    TR = "NFE2L2",
-    gene = "NFE2L2"
+    mutation_matrix = "./data/LSCC_mutations.txt",
+    RA_matrix = "./data/LSCC_TR_activity.txt",
+    gene = "NFE2L2",
+    TR = "NFE2L2"
 )
 ```
 
-### Rank recurrent mutations by trans-effects
+Visualize genes ranked by the number of significant trans-regulatory associations:
 
 ```r
 hbar_plot(
@@ -409,124 +345,379 @@ hbar_plot(
 )
 ```
 
-The bar height represents the number of transcriptional regulators whose activities are significantly associated with mutation of each gene at the specified nominal P-value cutoff.
-
-> In version 0.1.0, trans-effect analysis uses `future::multisession` with 10 workers. Make sure sufficient CPU and memory resources are available.
-
 ---
 
-## 5. Application to single-cell RNA-seq data
+## 2. PTM-associated regulation of transcriptional activity
 
-TregOmic operates on sample-level matrices. For scRNA-seq data, one practical strategy is to aggregate cells into biologically meaningful pseudobulk profiles, such as cell clusters, cell types, or sample-by-cell-type groups, and then apply the RNA-seq workflow.
+Protein abundance alone does not necessarily determine transcription-factor activity. TregOmic therefore provides a model-comparison strategy for identifying regulator PTMs associated with additional variation in regulon activity.
 
-The example test workflow performs the following steps:
+For each regulator, two nested models are compared:
 
-1. Process scRNA-seq data using Seurat.
-2. Define cell clusters.
-3. Aggregate raw counts within selected clusters to generate cluster-level pseudobulk profiles.
-4. Create metadata describing the pseudobulk profiles.
-5. Run `DESeq2_RNA_seq()` followed by `TregOmic_RNA_seq()`.
+\[
+RA \sim PE
+\]
 
-A minimal pseudobulk example is:
+and
+
+\[
+RA \sim PE + PTM_1 + PTM_2 + \cdots + PTM_n
+\]
+
+where:
+
+- **RA** = regulon activity;
+- **PE** = protein expression;
+- **PTM** = regulator-specific modification-site abundance.
+
+The full and reduced models are compared by ANOVA, followed by multiple-testing correction across regulators.
 
 ```r
-library(Seurat)
-
-# After clustering a Seurat object named `obj`:
-obj <- JoinLayers(obj)
-
-clusters <- unique(obj$seurat_clusters)
-
-pseudo_counts <- sapply(clusters, function(cl) {
-    cells <- colnames(obj)[obj$seurat_clusters == cl]
-    rowSums(obj@assays$RNA$counts[, cells, drop = FALSE])
-})
-
-colnames(pseudo_counts) <- paste0("cluster_", clusters)
+ptm_res <- PTM_affect_regulon(
+    RA_path = "./data/LUAD_TR_activity.txt",
+    proteomics_path = "./data/LUAD_proteomics.txt",
+    phosphomics_path = "./data/LUAD_phosphomics.txt"
+)
 ```
 
-The resulting pseudobulk matrix can then be used as input to `DESeq2_RNA_seq()` together with the corresponding metadata.
+Inspect regulators whose phosphosite profiles explain additional activity variation:
+
+```r
+head(ptm_res$phos_vs_pro)
+```
+
+Identify phosphosites correlated with the activity of a specific regulator:
+
+```r
+sites <- Get_correlated_sites(
+    "HNF4A",
+    ptm_res$Phos,
+    ptm_res$RA
+)
+```
+
+Visualize protein abundance, phosphosite abundance, and regulon activity:
+
+```r
+scatter_plot_Pro_vs_Phos(
+    "HNF4A",
+    sites$site[1],
+    ptm_res$Pro,
+    ptm_res$Phos,
+    ptm_res$RA
+)
+```
 
 ---
 
-## Output structure
+## 3. Multi-layer regulatory architecture
 
-### `TregOmic_ATAC_seq()` and `TregOmic_RNA_seq()`
+`Multi_layer_regulation_model()` integrates several candidate regulatory layers into a regulator-specific model.
 
-Both functions return a list containing:
+For each eligible transcriptional regulator, the model combines:
 
-```text
-RA_and_RP   regulator-specific inference results
-metadata    sample metadata
+- regulator protein abundance;
+- recurrent somatic mutations;
+- regulator-specific phosphosite abundance.
+
+Regulon activity is bounded between 0 and 1 and is logit-transformed before fitting an **Elastic Net** regression model.
+
+```r
+multi_layer_res <- Multi_layer_regulation_model(
+    RA_path = "./data/LSCC_TR_activity.txt",
+    proteomics_path = "./data/LSCC_proteomics.txt",
+    phosphomics_path = "./data/LSCC_phosphomics.txt",
+    mutation_path = "./data/LSCC_mutations.txt",
+    recurrent_gene_cutoff = 0.10
+)
 ```
 
-For each regulator in `RA_and_RP`:
+For each analyzed regulator, the returned table contains selected features and their coefficients, ranked by absolute coefficient magnitude.
+
+```r
+multi_layer_res[["NFE2L2"]]
+```
+
+This module is intended to help distinguish regulators whose activities are dominated by protein abundance from those with substantial genetic or post-translational control.
+
+---
+
+# Single-cell and spatial applications
+
+TregOmic currently operates on sample-by-feature matrices rather than directly on individual cells or spots.
+
+Single-cell RNA-seq or spatial transcriptomic data can therefore be used by constructing biologically meaningful **pseudobulk profiles**, for example:
 
 ```text
-TR_activity     inferred regulon activity across samples
-weights         inferred regulatory potential
-prior_matrix    prior regulator–feature association information
+single cells / spatial spots
+          │
+          ├── cluster
+          ├── cell state
+          ├── tissue region
+          ├── histological annotation
+          └── patient × compartment
+          │
+          ▼
+ aggregated gene-expression matrix
+          │
+          ▼
+     DESeq2_RNA_seq()
+          │
+          ▼
+     TregOmic_RNA_seq()
+          │
+          ▼
+ regulon activity across regions / states
 ```
+
+This strategy enables regulator activity to be compared among cell states, genotypes, tissue regions, pathological compartments, or other aggregated biological units while retaining a statistically stable sample-level representation.
+
+---
+
+# Input and output
+
+## ATAC-seq / ChIP-seq input
+
+TregOmic expects count matrices for proximal and distal regulatory regions together with sample metadata.
+
+Typical input:
+
+```text
+proximal_peak_regions_2000bp.txt
+distal_peak_regions_2000bp.txt
+sample_metadata.csv
+```
+
+Raw ATAC-seq or ChIP-seq reads can first be processed using the **Epigenomic Analysis Platform (EAP)**:
+
+https://github.com/haojiechen94/EAP
+
+MAnorm2-compatible count matrices can also be used as input:
+
+https://github.com/tushiqi/MAnorm2
+
+---
+
+## RNA-seq input
+
+The RNA workflow requires:
+
+1. a raw gene-count matrix;
+2. sample metadata;
+3. a regulator–target network (e.g., DoRothEA).
+
+A typical regulator–target network has the form:
+
+```text
+source      target      mor
+HNF4A       APOA1       1
+HNF4A       CYP2C9      1
+TP53        BCL2       -1
+```
+
+where `mor` represents the direction of regulation:
+
+- `1` — positive regulation;
+- `-1` — negative regulation.
+
+---
+
+## Main TregOmic outputs
+
+The central output of `TregOmic_ATAC_seq()` and `TregOmic_RNA_seq()` contains regulator-specific inference results and sample metadata.
+
+Conceptually, the output includes:
+
+| Output | Description |
+|---|---|
+| **RA** | Sample-specific regulon activity |
+| **RP** | Target- or element-specific regulatory potential |
+| **Prior information** | Regulator–target constraints used by the model |
+| **Metadata** | Sample phenotype information |
+| **Variable features** | Variable regulatory elements or genes identified during preprocessing |
 
 Use:
 
 ```r
-matrix_res <- transform_to_matrix(TregOmic_res)
+transform_to_matrix(TregOmic_res)
 ```
 
-to combine regulator-specific results into matrices for downstream analyses.
+to obtain a conventional regulator × sample activity matrix for downstream analysis.
 
 ---
 
-## Notes on input consistency
+# Statistical model
 
-Sample identifiers must be consistent across all input matrices and metadata tables. Downstream multi-omic functions automatically retain overlapping samples, but harmonizing sample IDs before analysis is strongly recommended.
+TregOmic represents the observed molecular profile as a combination of regulator activities and regulatory potentials:
 
-For the current version:
+\[
+X \approx A W^{T}
+\]
 
-- `HyperChIP_ATAC_seq()` and `DESeq2_RNA_seq()` read metadata as **comma-separated** files.
-- `Mutation_affect_regulon()` reads metadata as a **tab-delimited** file.
-- Regulon activity values used in mutation association analysis are expected to lie between 0 and 1.
+where:
 
----
+- \(X\) is the sample-by-feature molecular profile;
+- \(A\) is the sample-by-regulator **regulon activity** matrix;
+- \(W\) is the feature-by-regulator **regulatory potential** matrix.
 
-## Example datasets
+Prior regulator–target relationships constrain the direction and distribution of regulatory potentials. For transcriptomic data, prior relationships may encode activating and repressing effects, whereas epigenomic regulatory associations provide prior support for regulator–regulatory-element connections.
 
-Two curated datasets are used in the advanced examples:
-
-- **LUAD proteogenomic data for PTM analysis:** [Zenodo record 20754798](https://zenodo.org/records/20754798)
-- **LSCC mutation/regulon data for mutation association analysis:** [Zenodo record 22177302](https://zenodo.org/records/22177302)
-
-Additional epigenomic example files are available in the repository [`data`](https://github.com/haojiechen94/TF_or_ER_activity_scores/tree/master/data) directory.
+The model is fitted using **Stan**, allowing regulator activity and regulatory potential to be inferred jointly rather than sequentially.
 
 ---
 
-## Citation
+# Recommended analysis strategy
 
-If you use TregOmic in your research, please cite:
+A typical TregOmic study can be organized into four analytical layers:
 
-> Chen HJ et al. **TregOmic: Joint inference of regulon activity and regulatory potential from multi-omic data.** Manuscript in preparation.
+```text
+Layer 1 — Molecular heterogeneity
+          identify variable peaks / genes
 
-Please update this section with the final publication information when available.
+Layer 2 — Regulatory state
+          infer RA and RP
+
+Layer 3 — Biological association
+          relate RA to phenotype, progression, subtype, or spatial state
+
+Layer 4 — Regulatory mechanism
+          mutation → protein → PTM → regulon activity
+```
+
+This separation is useful because it distinguishes **observed molecular variation**, **inferred regulatory state**, and **candidate upstream mechanisms**.
 
 ---
 
-## Related resources
+# Reproducibility
 
-- **EAP — Epigenetic Analysis Platform:** https://github.com/haojiechen94/EAP
-- **TregOmic repository:** https://github.com/haojiechen94/TF_or_ER_activity_scores
+For reproducible analysis, we recommend reporting:
+
+- TregOmic version;
+- R and Stan versions;
+- genome build and motif database;
+- regulator–target network source;
+- variable-feature selection thresholds;
+- number of model iterations and retained posterior samples;
+- transformation strategy (`z_transform`);
+- recurrent mutation threshold;
+- covariates used in mutation association models.
+
+A fixed random seed is used in core model-fitting procedures where applicable.
 
 ---
 
-## Contact
+# Example data
+
+Curated example datasets used by the package workflows are hosted on Zenodo (https://zenodo.org/records/20754798).
+
+Examples include regulon activity, proteomics, phosphoproteomics, mutation, and metadata matrices used to demonstrate downstream multi-omic analyses.
+
+
+---
+
+# Repository structure
+
+```text
+TF_or_ER_activity_scores/
+├── data/                     # Example input data
+├── images/                   # Figures and workflow illustrations
+├── TregOmic_0.1.0.tar.gz     # R source package
+└── README.md
+```
+
+---
+
+# Function reference
+
+### Core inference
+
+```r
+HyperChIP_ATAC_seq()
+TregOmic_ATAC_seq()
+
+DESeq2_RNA_seq()
+TregOmic_RNA_seq()
+```
+
+### Result extraction and visualization
+
+```r
+transform_to_matrix()
+boxplot_RA()
+```
+
+### Mutation analysis
+
+```r
+Mutation_affect_regulon()
+boxplot_RA2()
+hbar_plot()
+```
+
+### Post-translational regulation
+
+```r
+PTM_affect_regulon()
+Get_correlated_sites()
+scatter_plot_Pro_vs_Phos()
+```
+
+### Multi-layer integration
+
+```r
+Multi_layer_regulation_model()
+```
+
+---
+
+# Citation
+
+If you use **TregOmic** in your research, please cite:
+
+> **Chen HJ et al.** *TregOmic: Joint inference of regulon activity and regulatory potential from multi-omic data.* Manuscript in preparation.
+
+A formal citation will be added after publication.
+
+If the preprocessing workflow from EAP is used, please also cite the corresponding EAP publication.
+
+---
+
+# Contributing
+
+Issues, bug reports, and suggestions are welcome.
+
+When reporting a problem, please include:
+
+- a minimal reproducible example;
+- R version;
+- TregOmic version;
+- operating system;
+- relevant warning or error message.
+
+Please submit issues through the GitHub repository.
+
+---
+
+# License
+
+TregOmic is distributed under the **MIT License**.
+
+---
+
+# Contact
 
 **Haojie Chen**  
-Email: chenhaojiecompbio@gmail.com
+Computational biology / cancer epigenomics
 
-For bug reports, feature requests, or questions about TregOmic, please use the GitHub Issues page or contact the maintainer.
+- GitHub: https://github.com/haojiechen94
+- Repository: https://github.com/haojiechen94/TF_or_ER_activity_scores
+- Email: chenhaojiecompbio@gmail.com
 
 ---
 
-## License
+<div align="center">
 
-TregOmic is distributed under the MIT License.
+### TregOmic
+
+**Quantifying regulatory state. Dissecting regulatory mechanism.**
+
+</div>
