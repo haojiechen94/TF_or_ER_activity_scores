@@ -234,7 +234,7 @@ boxplot_RA(
 ```
 
 <p align="center">
-  <img src="images/TregOmic_results.png" width="900">
+  <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/1.png" width="400">
 </p>
 
 ### Step 4. Export a regulon activity matrix
