@@ -354,6 +354,9 @@ boxplot_RA2(
     TR = "NFE2L2"
 )
 ```
+<p align="center">
+  <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/4.png" width="400">
+</p>
 
 Visualize genes ranked by the number of significant trans-regulatory associations:
 
@@ -365,7 +368,9 @@ hbar_plot(
     color = "purple"
 )
 ```
-
+<p align="center">
+  <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/5.png" width="400">
+</p>
 ---
 
 ## 2. PTM-associated regulation of transcriptional activity
