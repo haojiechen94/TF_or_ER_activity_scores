@@ -298,13 +298,17 @@ TregOmic_RNA_res <- TregOmic_RNA_seq(
 ### Step 3. Visualize phenotype-associated activity
 
 ```r
+TregOmic_res_zscore_10000$metadata$Stage<-factor(TregOmic_res_zscore_10000$metadata$Stage,
+                                                 levels = c('Stage_I','Stage_II','Stage_III','Stage_IV'))
 boxplot_RA(
     TregOmic_RNA_res,
     TR = "RUNX2",
     categorical_variable = "Stage"
 )
 ```
-
+<p align="center">
+  <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/3.png" width="400">
+</p>
 ---
 
 # Multi-omic regulatory analysis
