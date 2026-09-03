@@ -328,7 +328,7 @@ The analysis distinguishes:
 
 A multivariable regression model can incorporate clinical or molecular covariates.
 
-$$ RA \sim \beta_0 + \beta_{mutation} \cdots Muation+\beta_sex \cdots Sex + \beta_{age} \cdots Age + \beta_{BMI} \cdots BMI + \beta_{TMB} \cdots TMB + \epsilon $$
+$$ RA \sim \beta_0 + \beta_{mutation} \cdot Muation+\beta_sex \cdot Sex + \beta_{age} \cdot Age + \beta_{BMI} \cdot BMI + \beta_{TMB} \cdot TMB + \epsilon $$
 
 ```r
 mutation_res <- Mutation_affect_regulon(
