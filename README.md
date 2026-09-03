@@ -374,15 +374,13 @@ Protein abundance alone does not necessarily determine transcription-factor acti
 
 For each regulator, two nested models are compared:
 
-\[
-RA \sim PE
-\]
+$$ RA \sim PE $$
 
 and
 
-\[
+$$
 RA \sim PE + PTM_1 + PTM_2 + \cdots + PTM_n
-\]
+$$
 
 where:
 
