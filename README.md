@@ -328,6 +328,8 @@ The analysis distinguishes:
 
 A multivariable regression model can incorporate clinical or molecular covariates.
 
+$$ RA \sim \beta_0 + \beta_{mutation} \dot Muation+\beta_sex \dot Sex + \beta_{age} \dot Age + \beta_{BMI} \dot BMI + \beta_{TMB} \dot TMB + \epsilon $$
+
 ```r
 mutation_res <- Mutation_affect_regulon(
     mutation_matrix = "./data/LSCC_mutations.txt",
@@ -573,9 +575,9 @@ to obtain a conventional regulator × sample activity matrix for downstream anal
 
 TregOmic represents the observed molecular profile as a combination of regulator activities and regulatory potentials:
 
-\[
+$$
 X \approx A W^{T}
-\]
+$$
 
 where:
 
