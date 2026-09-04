@@ -191,6 +191,16 @@ library(TregOmic)
 ```r
 library(TregOmic)
 
+#download curated data sets from Zenodo
+url<-'https://zenodo.org/records/22232132/files/GAC_cellines_H3K27ac_ChIP_seq_metadata.csv'
+download_data(url, "./data/GAC_cellines_H3K27ac_ChIP_seq_metadata.csv")
+
+url<-'https://zenodo.org/records/22232132/files/proximal_peak_regions_2000bp.txt'
+download_data(url, "./data/proximal_peak_regions_2000bp.txt")
+
+url<-'https://zenodo.org/records/22232132/files/distal_peak_regions_2000bp.txt'
+download_data(url, "./data/distal_peak_regions_2000bp.txt")
+
 HyperChIP_res <- HyperChIP_ATAC_seq(
     input_proximal = "./data/proximal_peak_regions_2000bp.txt",
     input_distal   = "./data/distal_peak_regions_2000bp.txt",
@@ -265,6 +275,16 @@ The resulting matrix can be used for clustering, phenotype association, survival
 ### Step 1. Prepare RNA-seq data and identify variable genes
 
 ```r
+
+
+#download curated data sets from Zenodo
+url<-'https://zenodo.org/records/22232132/files/GAC_cellines_H3K27ac_ChIP_seq_metadata.csv'
+download_data(url, "./data/GAC_cellines_H3K27ac_ChIP_seq_metadata.csv")
+
+url<-'https://zenodo.org/records/22232132/files/proximal_peak_regions_2000bp.txt'
+download_data(url, "./data/proximal_peak_regions_2000bp.txt")
+
+
 DESeq2_res <- DESeq2_RNA_seq(
     input_count_table = "./data/raw_read_counts.txt",
     metadata = "./data/sample_info.txt",
@@ -331,6 +351,17 @@ A multivariable regression model can incorporate clinical or molecular covariate
 $$ RA \sim \beta_0 + \beta_{mutation} \cdot Muation+\beta_sex \cdot Sex + \beta_{age} \cdot Age + \beta_{BMI} \cdot BMI + \beta_{TMB} \cdot TMB + \epsilon $$
 
 ```r
+
+#download curated data sets from Zenodo
+url<-'https://zenodo.org/records/22232132/files/LSCC_mutations.txt'
+download_data(url, "./data/LSCC_mutations.txt")
+
+url<-'https://zenodo.org/records/22232132/files/LSCC_TR_activity.txt'
+download_data(url, "./data/LSCC_TR_activity.txt")
+
+url<-'https://zenodo.org/records/22232132/files/LSCC_meta.txt'
+download_data(url, "./data/LSCC_meta.txt")
+
 mutation_res <- Mutation_affect_regulon(
     mutation_matrix = "./data/LSCC_mutations.txt",
     RA_matrix = "./data/LSCC_TR_activity.txt",
@@ -398,6 +429,17 @@ where:
 The full and reduced models are compared by ANOVA, followed by multiple-testing correction across regulators.
 
 ```r
+
+#download curated data sets from Zenodo
+url<-'https://zenodo.org/records/22232132/files/LUAD_TR_activity.txt'
+download_data(url, "./data/LUAD_TR_activity.txt")
+
+url<-'https://zenodo.org/records/22232132/files/LUAD_proteomics.txt'
+download_data(url, "./data/LLUAD_proteomics.txt")
+
+url<-'https://zenodo.org/records/22232132/files/LUAD_phosphomics.txt'
+download_data(url, "./data/LUAD_phosphomics.txt")
+
 ptm_res <- PTM_affect_regulon(
     RA_path = "./data/LUAD_TR_activity.txt",
     proteomics_path = "./data/LUAD_proteomics.txt",
@@ -472,6 +514,19 @@ Features with non-zero coefficients are retained as candidate contributors to re
 
 
 ```r
+#download curated data sets from Zenodo
+url<-'https://zenodo.org/records/22232132/files/LSCC_TR_activity.txt'
+download_data(url, "./data/LSCC_TR_activity.txt")
+
+url<-'https://zenodo.org/records/22232132/files/LSCC_proteomics.txt'
+download_data(url, "./data/LSCC_proteomics.txt")
+
+url<-'https://zenodo.org/records/22232132/files/LSCC_phosphomics.txt'
+download_data(url, "./data/LSCC_phosphomics.txt")
+
+url<-'https://zenodo.org/records/22232132/files/LSCC_mutations.txt'
+download_data(url, "./data/LSCC_mutations.txt")
+
 multi_layer_res <- Multi_layer_regulation_model(
     RA_path = "./data/LSCC_TR_activity.txt",
     proteomics_path = "./data/LSCC_proteomics.txt",
