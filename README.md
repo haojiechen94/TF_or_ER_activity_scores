@@ -474,6 +474,9 @@ scatter_plot_Pro_vs_Phos(
     ptm_res$RA
 )
 ```
+<p align="center">
+  <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/18.png" width="800">
+</p>
 
 ---
 
