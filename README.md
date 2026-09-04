@@ -547,15 +547,15 @@ multi_layer_res[["NFE2L2"]]
   <tr>
     <td align="center">
       <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/15.png" width="300"><br>
-      <b>A. HE image</b>
+      <b>A. Lambda selection</b>
     </td>
     <td align="center">
       <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/16.png" width="300"><br>
-      <b>B. Pathological annotation</b>
+      <b>B. Model fitness R2</b>
     </td>
     <td align="center">
       <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/17.png" width="300"><br>
-      <b>C. AR regulon activity</b>
+      <b>C. Top-ranked regulon activity associated features</b>
     </td>
   </tr>
   
