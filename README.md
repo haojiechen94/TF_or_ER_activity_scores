@@ -567,24 +567,22 @@ This module is intended to help distinguish regulators whose activities are domi
 
 # Single-cell and spatial applications
 
-TregOmic currently operates on sample-by-feature matrices rather than directly on individual cells or spots.
+TregOmic currently operates on sample-by-feature matrices rather than directly on individual cells.
 
-Single-cell RNA-seq or spatial transcriptomic data can therefore be used by constructing biologically meaningful **pseudobulk profiles**, for example:
+Single-cell RNA-seq data can therefore be used by constructing biologically meaningful **pseudobulk profiles**, 
+and spot-based spatial transcriptomic data is also supported, for example:
 
 ```text
-single cells / spatial spots
-          │
-          ├── cluster
-          ├── cell state
-          ├── tissue region
-          ├── histological annotation
-          └── patient × compartment
-          │
-          ▼
- aggregated gene-expression matrix
-          │
-          ▼
-     DESeq2_RNA_seq()
+single cells                       spatial spots
+          │                              │
+          ├── cluster                    │
+          └── cell state                 │
+          │                              │   
+          ▼                              │   
+ aggregated gene-expression matrix       │
+          │                              │ 
+          ▼                              │ 
+     DESeq2_RNA_seq()     ◄ ─────────────┘
           │
           ▼
      TregOmic_RNA_seq()
