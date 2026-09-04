@@ -348,7 +348,7 @@ The analysis distinguishes:
 
 A multivariable regression model can incorporate clinical or molecular covariates.
 
-$$ RA \sim \beta_0 + \beta_{mutation} \cdot Muation+\beta_sex \cdot Sex + \beta_{age} \cdot Age + \beta_{BMI} \cdot BMI + \beta_{TMB} \cdot TMB + \epsilon $$
+$$ RA \sim \beta_0 + \beta_{mutation} \cdot Muation+\beta_{sex} \cdot Sex + \beta_{age} \cdot Age + \beta_{BMI} \cdot BMI + \beta_{TMB} \cdot TMB + \epsilon $$
 
 ```r
 
@@ -626,6 +626,8 @@ This strategy enables regulator activity to be compared among cell states, genot
   </tr>
 </table>
 
+Regulon activity analysis enables the characterization of transcriptional regulatory changes across meta cells. In this example, WT and DKO (Hnf4a-/Gata6-) cells showed distinct regulatory states, with markedly reduced Hnf4a and Gata6 regulon activities in DKO cells. Notably, changes in regulon activity were not always mirrored by the expression levels of the corresponding regulators, indicating that regulon activity provides complementary information beyond regulator gene expression and better reflects alterations in downstream transcriptional programs.
+
 ### Spatial trancriptomics
 
 
@@ -651,6 +653,8 @@ This strategy enables regulator activity to be compared among cell states, genot
   </tr>
   
 </table>
+
+egulon activities can be projected onto spatial coordinates to characterize spatially heterogeneous transcriptional regulatory programs within tissue sections. In this prostate tissue example, AR regulon activity displayed a clear pathology-associated spatial pattern. AR activity was relatively low in nerve, adipose and stromal regions, but substantially elevated in epithelial regions including benign tissue, PIN and GG2/4 tumor areas. Significant differences in AR activity were observed across pathological states, demonstrating that regulon activity analysis can connect transcriptional regulatory states with tissue architecture and pathological progression.
 
 ---
 
