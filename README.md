@@ -447,6 +447,30 @@ For each eligible transcriptional regulator, the model combines:
 
 Regulon activity is bounded between 0 and 1 and is logit-transformed before fitting an **Elastic Net** regression model.
 
+For each transcriptional regulator, the multi-layer regulatory model is defined as:
+
+$$ Y_{ir} = \beta_0 + \beta_{P} P_{ir} + \sum_{g=1}^{G}\beta_{g}M_{ig} + \sum_{k=1}^{K}\gamma_{k}S_{ikr} + \varepsilon_{ir}, $$
+
+where:
+
+- $\(P_{ir}\)$ denotes the protein abundance of regulator $\(r\)$;
+- $\(M_{ig}\)$ denotes the mutation status of recurrently mutated gene $\(g\)$ in sample $\(i\)$;
+- $\(S_{ikr}\)$ denotes the abundance of phosphosite $\(k\)$ belonging to regulator $\(r\)$;
+- $\(\beta_P\)$, $\(\beta_g\)$, and $\(\gamma_k\)$ represent the corresponding regression coefficients;
+- $\(\varepsilon_{ir}\)$ denotes the residual error.
+
+Only genes mutated in more than a predefined fraction of samples are included as recurrent mutation predictors.
+
+To account for the potentially large number of correlated regulatory features, coefficients are estimated using Elastic Net regularization:
+
+$$\hat{\boldsymbol{\beta}}=\arg\min_{\boldsymbol{\beta}}\{\frac{1}{2N}\|\mathbf{Y}-\beta_0-\mathbf{X}\boldsymbol{\beta}\|_2^2+\lambda[\alpha\|\boldsymbol{\beta}\|_1+\frac{1-\alpha}{2}\|\boldsymbol{\beta}\|_2^2]\}$$
+
+
+In the current implementation, $\(\alpha=0.5\)$, providing an equal balance between LASSO and ridge penalties. The optimal regularization parameter $\(\lambda\)$ is selected using 10-fold cross-validation (`lambda.min`).
+
+Features with non-zero coefficients are retained as candidate contributors to regulator activity and ranked according to the absolute magnitude of their coefficients.
+
+
 ```r
 multi_layer_res <- Multi_layer_regulation_model(
     RA_path = "./data/LSCC_TR_activity.txt",
