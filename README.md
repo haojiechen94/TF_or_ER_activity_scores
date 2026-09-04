@@ -487,6 +487,25 @@ For each analyzed regulator, the returned table contains selected features and t
 multi_layer_res[["NFE2L2"]]
 ```
 
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/15.png" width="300"><br>
+      <b>A. HE image</b>
+    </td>
+    <td align="center">
+      <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/16.png" width="300"><br>
+      <b>B. Pathological annotation</b>
+    </td>
+    <td align="center">
+      <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/17.png" width="300"><br>
+      <b>C. AR regulon activity</b>
+    </td>
+  </tr>
+  
+</table>
+
 This module is intended to help distinguish regulators whose activities are dominated by protein abundance from those with substantial genetic or post-translational control.
 
 ---
