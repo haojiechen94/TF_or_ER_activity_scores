@@ -521,6 +521,65 @@ single cells / spatial spots
 
 This strategy enables regulator activity to be compared among cell states, genotypes, tissue regions, pathological compartments, or other aggregated biological units while retaining a statistically stable sample-level representation.
 
+## Representative results
+
+### Single cell RNA-seq
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/6.png" width="300"><br>
+      <b>A. Genotype</b>
+    </td>
+    <td align="center">
+      <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/7.png" width="300"><br>
+      <b>B. Hnf4a regulon activity</b>
+    </td>
+    <td align="center">
+      <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/8.png" width="300"><br>
+      <b>C. Gata6 regulon activity</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+    </td>
+    <td align="center">
+      <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/9.png" width="300"><br>
+      <b>E. Hnf4a gene expression</b>
+    </td>
+    <td align="center">
+      <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/10.png" width="300"><br>
+      <b>F. Gata6 gene expression</b>
+    </td>
+  </tr>
+</table>
+
+### Spatial trancriptomics
+
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/11.png" width="300"><br>
+      <b>A. HE image</b>
+    </td>
+    <td align="center">
+      <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/12.png" width="300"><br>
+      <b>B. Pathological annotation</b>
+    </td>
+    <td align="center">
+      <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/13.png" width="300"><br>
+      <b>C. AR regulon activity</b>
+    </td>
+    </td>
+    <td align="center">
+      <img src="https://github.com/haojiechen94/TF_or_ER_activity_scores/blob/master/images/14.png" width="300"><br>
+      <b>D. AR regulon activity</b>
+    </td>
+  </tr>
+  
+</table>
+
 ---
 
 # Input and output
