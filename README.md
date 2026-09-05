@@ -192,13 +192,13 @@ library(TregOmic)
 library(TregOmic)
 
 #download curated data sets from Zenodo
-url<-'https://zenodo.org/records/22232132/files/GAC_cellines_H3K27ac_ChIP_seq_metadata.csv'
+url<-'https://zenodo.org/records/22313979/files/GAC_cellines_H3K27ac_ChIP_seq_metadata.csv'
 download_data(url, "./data/GAC_cellines_H3K27ac_ChIP_seq_metadata.csv")
 
-url<-'https://zenodo.org/records/22232132/files/proximal_peak_regions_2000bp.txt'
+url<-'https://zenodo.org/records/22313979/files/proximal_peak_regions_2000bp.txt'
 download_data(url, "./data/proximal_peak_regions_2000bp.txt")
 
-url<-'https://zenodo.org/records/22232132/files/distal_peak_regions_2000bp.txt'
+url<-'https://zenodo.org/records/22313979/files/distal_peak_regions_2000bp.txt'
 download_data(url, "./data/distal_peak_regions_2000bp.txt")
 
 HyperChIP_res <- HyperChIP_ATAC_seq(
@@ -278,16 +278,18 @@ The resulting matrix can be used for clustering, phenotype association, survival
 
 
 #download curated data sets from Zenodo
-url<-'https://zenodo.org/records/22232132/files/GAC_cellines_H3K27ac_ChIP_seq_metadata.csv'
-download_data(url, "./data/GAC_cellines_H3K27ac_ChIP_seq_metadata.csv")
+url<-'https://zenodo.org/records/22313979/files/LUAD_sample_info.txt'
+download_data(url, "./data/LUAD_sample_info.txt")
 
-url<-'https://zenodo.org/records/22232132/files/proximal_peak_regions_2000bp.txt'
-download_data(url, "./data/proximal_peak_regions_2000bp.txt")
+url<-'https://zenodo.org/records/22313979/files/LUAD_raw_read_counts.txt'
+download_data(url, "./data/LUAD_raw_read_counts.txt")
 
+url<-'https://zenodo.org/records/22313979/files/human_net.txt'
+download_data(url, "./data/human_net.txt")
 
 DESeq2_res <- DESeq2_RNA_seq(
-    input_count_table = "./data/raw_read_counts.txt",
-    metadata = "./data/sample_info.txt",
+    input_count_table = "./data/LUAD_raw_read_counts.txt",
+    metadata = "./data/LUAD_sample_info.txt",
     categorical_variable = "Stage",
     top_number_of_PCs = 2,
     perplexity = 0,
@@ -431,13 +433,13 @@ The full and reduced models are compared by ANOVA, followed by multiple-testing 
 ```r
 
 #download curated data sets from Zenodo
-url<-'https://zenodo.org/records/22232132/files/LUAD_TR_activity.txt'
+url<-'https://zenodo.org/records/22313979/files/LUAD_TR_activity.txt'
 download_data(url, "./data/LUAD_TR_activity.txt")
 
-url<-'https://zenodo.org/records/22232132/files/LUAD_proteomics.txt'
+url<-'https://zenodo.org/records/22313979/files/LUAD_proteomics.txt'
 download_data(url, "./data/LLUAD_proteomics.txt")
 
-url<-'https://zenodo.org/records/22232132/files/LUAD_phosphomics.txt'
+url<-'https://zenodo.org/records/22313979/files/LUAD_phosphomics.txt'
 download_data(url, "./data/LUAD_phosphomics.txt")
 
 ptm_res <- PTM_affect_regulon(
@@ -518,16 +520,16 @@ Features with non-zero coefficients are retained as candidate contributors to re
 
 ```r
 #download curated data sets from Zenodo
-url<-'https://zenodo.org/records/22232132/files/LSCC_TR_activity.txt'
+url<-'https://zenodo.org/records/22313979/files/LSCC_TR_activity.txt'
 download_data(url, "./data/LSCC_TR_activity.txt")
 
-url<-'https://zenodo.org/records/22232132/files/LSCC_proteomics.txt'
+url<-'https://zenodo.org/records/22313979/files/LSCC_proteomics.txt'
 download_data(url, "./data/LSCC_proteomics.txt")
 
-url<-'https://zenodo.org/records/22232132/files/LSCC_phosphomics.txt'
+url<-'https://zenodo.org/records/22313979/files/LSCC_phosphomics.txt'
 download_data(url, "./data/LSCC_phosphomics.txt")
 
-url<-'https://zenodo.org/records/22232132/files/LSCC_mutations.txt'
+url<-'https://zenodo.org/records/22313979/files/LSCC_mutations.txt'
 download_data(url, "./data/LSCC_mutations.txt")
 
 multi_layer_res <- Multi_layer_regulation_model(
