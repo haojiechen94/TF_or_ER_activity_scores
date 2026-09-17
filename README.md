@@ -867,7 +867,7 @@ If you use **TregOmic** in your research, please cite:
 
 A formal citation will be added after publication.
 
-If the preprocessing workflow from EAP is used, please also cite the corresponding EAP publication.
+If the preprocessing workflow from EAP is used, please also cite the corresponding EAP publication (https://doi.org/10.1016/j.csbj.2025.11.026).
 
 ---
 
