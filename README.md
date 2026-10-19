@@ -869,6 +869,8 @@ A formal citation will be added after publication.
 
 If the preprocessing workflow from EAP is used, please also cite the corresponding EAP publication (https://doi.org/10.1016/j.csbj.2025.11.026).
 
+If hypervariable analysis from HyperChIP is used, please also cite the corresponding HyperChIP publication (https://doi.org/10.1186/s13059-022-02627-9).
+
 ---
 
 # Contributing
