@@ -913,3 +913,12 @@ Computational biology / cancer epigenomics
 **Quantifying regulatory state. Dissecting regulatory mechanism.**
 
 </div>
+
+
+
+<p align="center">
+  <a href="#">
+     <img src="https://api.visitorbadge.io/api/visitors?path=https://github.com/haojiechen94/TF_or_ER_activity_scores" />
+   </a>
+</p>
+
