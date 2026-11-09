@@ -863,7 +863,7 @@ Multi_layer_regulation_model()
 
 If you use **TregOmic** in your research, please cite:
 
-> **Chen HJ et al.** *Chen, Hao-Jie el, al. Multilayer Modeling Links Molecular Alterations to Transcriptional Regulatory Remodeling across Human Cancers. http://dx.doi.org/10.2139/ssrn.7674612.
+> **Chen HJ et al.** *Chen, Hao-Jie et, al. Multilayer Modeling Links Molecular Alterations to Transcriptional Regulatory Remodeling across Human Cancers. http://dx.doi.org/10.2139/ssrn.7674612.
 
 A formal citation will be added after publication.
 
